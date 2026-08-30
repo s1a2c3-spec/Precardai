@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Card Editor — PreCardAI</title>
+<meta name="description" content="Customise your PreCardAI card — add your photo, write your message, and download in HD.">
+<meta name="robots" content="noindex, follow">
+<link rel="icon" href="assets/favicon.png" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600&family=Great+Vibes&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
+<style>
+  :root{
+    --ink:#3A0F1E;
+    --ink-soft:#5C1E32;
+    --gold:#C9A227;
+    --gold-soft:#E4C97A;
+    --emerald:#1F4D3E;
+    --paper:#FBF5EA;
+    --paper-deep:#F1E7D3;
+    --text-body:#4A3F38;
+    --muted:#8a7d70;
+    --white:#FFFFFF;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    font-family:'Inter',sans-serif;
+    background:var(--paper-deep);
+    color:var(--text-body);
+    overflow-x:hidden;
+    -webkit-tap-highlight-color:transparent;
+  }
+  a{text-decoration:none;color:inherit;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;}
+  img{max-width:100%;display:block;}
+
+  /* TOP BAR */
+  .top-bar{
+    position:sticky;top:0;z-index:200;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:12px 16px;
+    background:rgba(251,245,234,0.95);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(58,15,30,0.08);
+  }
+  .top-bar .back-btn{
+    display:flex;align-items:center;gap:6px;
+    font-size:13px;font-weight:500;color:var(--ink);
+  }
+  .top-bar .template-name{
+    font-family:'Cormorant Garamond',serif;
+    font-size:15px;font-weight:600;color:var(--ink);
+  }
+  .top-bar .download-btn{
+    background:var(--ink);color:var(--white);
+    padding:8px 16px;border-radius:20px;
+    font-size:12.5px;font-weight:500;
+  }
+  .top-bar .download-btn:active{transform:scale(0.96);}
+
+  /* CANVAS AREA */
+  .canvas-wrap{
+    display:flex;justify-content:center;
+    padding:18px 14px 10px;
+    background:var(--paper-deep);
+  }
+  .canvas-shell{
+    position:relative;
+    max-width:420px;
+    width:100%;
+    border-radius:8px;
+    overflow:hidden;
+    box-shadow:0 12px 30px rgba(58,15,30,0.15);
+    background:#fff;
+  }
+  #editorCanvas{display:block;width:100%;height:auto;touch-action:none;}
+
+  /* TOOL TABS */
+  .tool-tabs{
+    display:flex;gap:8px;
+    padding:12px 16px 4px;
+    overflow-x:auto;
+    justify-content:center;
+  }
+  .tool-tab{
+    flex-shrink:0;
+    padding:9px 16px;border-radius:20px;
+    font-size:12.5px;font-weight:500;
+    background:var(--white);border:1px solid rgba(58,15,30,0.15);
+    color:var(--ink);
+    display:flex;align-items:center;gap:6px;
+  }
+  .tool-tab.active{background:var(--ink);color:var(--white);border-color:var(--ink);}
+
+  /* TOOL PANELS */
+  .tool-panel{
+    padding:16px 20px 28px;
+    display:none;
+  }
+  .tool-panel.active{display:block;}
+
+  .upload-row{display:flex;flex-direction:column;gap:10px;max-width:420px;margin:0 auto;}
+  .upload-btn{
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    background:var(--white);border:1.5px dashed rgba(58,15,30,0.3);
+    padding:16px;border-radius:8px;
+    font-size:13.5px;font-weight:500;color:var(--ink);
+  }
+  .upload-btn.filled{border-style:solid;border-color:var(--emerald);color:var(--emerald);}
+  .upload-hint{font-size:11.5px;color:var(--muted);text-align:center;margin-top:6px;}
+
+  .field-group{max-width:420px;margin:0 auto 14px;}
+  .field-label{font-size:12px;font-weight:600;color:var(--ink);margin-bottom:6px;display:block;}
+  textarea.text-input{
+    width:100%;padding:12px 14px;border-radius:8px;
+    border:1px solid rgba(58,15,30,0.2);
+    font-family:'Inter',sans-serif;font-size:14px;color:var(--text-body);
+    resize:vertical;min-height:70px;background:var(--white);
+  }
+  .add-text-btn{
+    width:100%;background:var(--ink);color:var(--white);
+    padding:13px;border-radius:8px;font-size:13.5px;font-weight:500;
+    margin-top:4px;
+  }
+  .add-text-btn:active{transform:scale(0.98);}
+
+  .style-row{display:flex;gap:10px;max-width:420px;margin:0 auto 14px;flex-wrap:wrap;}
+  .font-chip{
+    padding:8px 14px;border-radius:20px;font-size:13px;
+    background:var(--white);border:1px solid rgba(58,15,30,0.15);color:var(--ink);
+  }
+  .font-chip.active{background:var(--ink);color:var(--white);border-color:var(--ink);}
+  .color-dot{
+    width:30px;height:30px;border-radius:50%;
+    border:2px solid rgba(255,255,255,0.9);
+    box-shadow:0 0 0 1px rgba(58,15,30,0.2);
+  }
+  .color-dot.active{box-shadow:0 0 0 2px var(--ink);}
+
+  /* MANUAL / AI SWITCH */
+  .mode-switch{
+    display:flex;background:var(--white);border-radius:20px;
+    padding:4px;max-width:420px;margin:0 auto 16px;
+    border:1px solid rgba(58,15,30,0.1);
+  }
+  .mode-btn{flex:1;text-align:center;padding:9px;border-radius:16px;font-size:12.5px;font-weight:500;color:var(--ink);}
+  .mode-btn.active{background:var(--ink);color:var(--white);}
+
+  .ai-panel{max-width:420px;margin:0 auto;}
+  .ai-select{
+    width:100%;padding:12px 14px;border-radius:8px;
+    border:1px solid rgba(58,15,30,0.2);background:var(--white);
+    font-size:13.5px;color:var(--text-body);margin-bottom:12px;
+  }
+  .ai-generate-btn{
+    width:100%;background:linear-gradient(135deg,var(--gold-soft),var(--gold));
+    color:var(--ink);padding:13px;border-radius:8px;font-weight:600;font-size:13.5px;
+  }
+  .ai-note{
+    background:rgba(31,77,62,0.08);color:var(--emerald);
+    padding:10px 14px;border-radius:8px;font-size:12px;line-height:1.6;margin-top:12px;
+  }
+
+  .obj-controls{
+    max-width:420px;margin:0 auto;
+    display:flex;gap:10px;justify-content:center;flex-wrap:wrap;
+  }
+  .obj-btn{
+    padding:9px 16px;border-radius:20px;font-size:12.5px;font-weight:500;
+    background:var(--white);border:1px solid rgba(58,15,30,0.15);color:var(--ink);
+  }
+  .obj-btn.danger{color:#a33;border-color:rgba(170,51,51,0.3);}
+
+  .hidden-input{display:none;}
+
+  /* DOWNLOAD MODAL */
+  .modal-overlay{
+    position:fixed;inset:0;background:rgba(42,11,22,0.6);
+    display:none;align-items:flex-end;justify-content:center;z-index:500;
+  }
+  .modal-overlay.show{display:flex;}
+  .modal-sheet{
+    background:var(--paper);width:100%;max-width:480px;
+    border-radius:20px 20px 0 0;padding:24px 20px 32px;
+    text-align:center;
+  }
+  .modal-sheet h3{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--ink);margin-bottom:6px;}
+  .modal-sheet p{font-size:13px;color:var(--muted);margin-bottom:18px;line-height:1.6;}
+  .modal-preview{
+    max-width:200px;margin:0 auto 18px;border-radius:8px;overflow:hidden;
+    box-shadow:0 8px 20px rgba(58,15,30,0.15);
+  }
+  .modal-btn{
+    width:100%;padding:14px;border-radius:8px;font-size:13.5px;font-weight:600;
+    margin-bottom:10px;
+  }
+  .modal-btn.primary{background:var(--ink);color:var(--white);}
+  .modal-btn.secondary{background:var(--white);color:var(--ink);border:1px solid rgba(58,15,30,0.2);}
+  .modal-close{font-size:12px;color:var(--muted);margin-top:6px;display:inline-block;}
+  .watermark-note{font-size:11px;color:var(--muted);margin-top:10px;line-height:1.5;}
+</style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <a href="templates.html" class="back-btn">← <span id="templateLabel">Editor</span></a>
+    <button class="download-btn" id="openDownload">Download</button>
+  </div>
+
+  <div class="canvas-wrap">
+    <div class="canvas-shell">
+      <canvas id="editorCanvas" width="900" height="1600"></canvas>
+    </div>
+  </div>
+
+  <div class="tool-tabs">
+    <button class="tool-tab active" data-tool="photo">📸 Photo</button>
+    <button class="tool-tab" data-tool="text">✍️ Text</button>
+    <button class="tool-tab" data-tool="edit">🎛️ Selected</button>
+  </div>
+
+  <!-- PHOTO PANEL -->
+  <div class="tool-panel active" id="panel-photo">
+    <div class="upload-row" id="uploadRow">
+      <!-- upload buttons injected by JS based on template photo count -->
+    </div>
+    <p class="upload-hint">Tap a photo on the card to drag, and pinch or use the corner handle to resize.</p>
+  </div>
+
+  <!-- TEXT PANEL -->
+  <div class="tool-panel" id="panel-text">
+    <div class="mode-switch">
+      <button class="mode-btn active" data-mode="manual">Write it myself</button>
+      <button class="mode-btn" data-mode="ai">Use AI</button>
+    </div>
+
+    <div id="manualMode">
+      <div class="field-group">
+        <label class="field-label">Your message</label>
+        <textarea class="text-input" id="manualText" placeholder="Type your message here — in Hindi, English, or Hinglish"></textarea>
+      </div>
+      <div class="style-row" id="fontChips">
+        <button class="font-chip active" data-font="'Cormorant Garamond', serif">Elegant</button>
+        <button class="font-chip" data-font="'Dancing Script', cursive">Script</button>
+        <button class="font-chip" data-font="'Great Vibes', cursive">Flowing</button>
+        <button class="font-chip" data-font="'Inter', sans-serif">Clean</button>
+      </div>
+      <div class="style-row" id="colorDots">
+        <button class="color-dot active" style="background:#3A0F1E" data-color="#3A0F1E"></button>
+        <button class="color-dot" style="background:#C9A227" data-color="#C9A227"></button>
+        <button class="color-dot" style="background:#FFFFFF" data-color="#FFFFFF"></button>
+        <button class="color-dot" style="background:#1F4D3E" data-color="#1F4D3E"></button>
+        <button class="color-dot" style="background:#8E3B4A" data-color="#8E3B4A"></button>
+      </div>
+      <button class="add-text-btn" id="addTextBtn">Add Text to Card</button>
+    </div>
+
+    <div id="aiMode" class="ai-panel" style="display:none;">
+      <div class="field-group">
+        <label class="field-label">Who is this for?</label>
+        <select class="ai-select" id="aiRelation">
+          <option>Wife / Husband</option>
+          <option>Girlfriend / Boyfriend</option>
+          <option>Friend</option>
+          <option>Parent</option>
+          <option>Sibling</option>
+          <option>Family (general)</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Tone</label>
+        <select class="ai-select" id="aiTone">
+          <option>Emotional</option>
+          <option>Funny</option>
+          <option>Formal</option>
+          <option>Simple & sweet</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Language</label>
+        <select class="ai-select" id="aiLanguage">
+          <option>Hinglish</option>
+          <option>Hindi</option>
+          <option>English</option>
+        </select>
+      </div>
+      <button class="ai-generate-btn" id="aiGenerateBtn">✨ Generate with AI</button>
+      <div class="ai-note">
+        AI writing is being connected next — for now, tap "Write it myself" to add your message. This panel will work as soon as the AI backend is live.
+      </div>
+    </div>
+  </div>
+
+  <!-- EDIT SELECTED PANEL -->
+  <div class="tool-panel" id="panel-edit">
+    <p class="upload-hint" style="margin-bottom:14px;">Tap a photo or text on the card first, then use these controls.</p>
+    <div class="obj-controls">
+      <button class="obj-btn" id="bringForward">Bring Forward</button>
+      <button class="obj-btn" id="sendBackward">Send Backward</button>
+      <button class="obj-btn danger" id="deleteObj">Delete</button>
+    </div>
+  </div>
+
+  <input type="file" accept="image/*" class="hidden-input" id="fileInput1">
+  <input type="file" accept="image/*" class="hidden-input" id="fileInput2">
+
+  <!-- DOWNLOAD MODAL -->
+  <div class="modal-overlay" id="downloadModal">
+    <div class="modal-sheet">
+      <h3>Your card is ready</h3>
+      <p>Free downloads include a small PreCardAI watermark.</p>
+      <div class="modal-preview"><img id="previewImg" alt="Your finished card preview"></div>
+      <button class="modal-btn primary" id="confirmDownload">Download (with watermark)</button>
+      <button class="modal-btn secondary" id="hdDownload">Get HD — No Watermark (₹9)</button>
+      <span class="modal-close" id="closeModal">Cancel</span>
+      <p class="watermark-note">HD download and subscription plans are coming soon.</p>
+    </div>
+  </div>
+
+  <script>
+    // ---------- Template config (self-contained, no separate data file) ----------
+    const TEMPLATES = {
+      'wedding-1':  { file: 'assets/wedding-1.jpg',  name: 'Ivory Vows',       photos: 2 },
+      'wedding-2':  { file: 'assets/wedding-2.jpg',  name: 'Rose Union',       photos: 2 },
+      'wedding-3':  { file: 'assets/wedding-3.jpg',  name: 'Midnight Mehfil',  photos: 2 },
+      'birthday-1': { file: 'assets/birthday-1.jpg', name: 'Golden Confetti',  photos: 1 },
+      'birthday-2': { file: 'assets/birthday-2.jpg', name: 'Sunset Balloons',  photos: 1 },
+      'birthday-3': { file: 'assets/birthday-3.jpg', name: 'Rosy Celebration', photos: 1 },
+      'pooja-1':    { file: 'assets/pooja-1.jpg',    name: 'Diya Blessing',    photos: 1 },
+      'pooja-2':    { file: 'assets/pooja-2.jpg',    name: 'Marigold Path',    photos: 1 },
+      'pooja-3':    { file: 'assets/pooja-3.jpg',    name: 'Sacred Ornate',    photos: 1 },
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    const templateId = params.get('template') || 'wedding-1';
+    const template = TEMPLATES[templateId] || TEMPLATES['wedding-1'];
+    document.getElementById('templateLabel').textContent = template.name;
+
+    // ---------- Canvas setup ----------
+    const canvas = new fabric.Canvas('editorCanvas', {
+      preserveObjectStacking: true,
+      selection: false
+    });
+    canvas.setWidth(900);
+    canvas.setHeight(1600);
+
+    fabric.Image.fromURL(template.file, (img) => {
+      img.scaleToWidth(900);
+      canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas));
+    }, { crossOrigin: 'anonymous' });
+
+    // Approximate photo-circle guide positions (user can freely drag/resize
+    // afterwards, these are just sensible starting points)
+    const photoSlots = template.photos === 2
+      ? [ { cx: 0.33, cy: 0.30, r: 0.17 }, { cx: 0.67, cy: 0.30, r: 0.17 } ]
+      : [ { cx: 0.50, cy: 0.32, r: 0.20 } ];
+
+    // ---------- Photo upload ----------
+    const uploadRow = document.getElementById('uploadRow');
+    const fileInputs = [document.getElementById('fileInput1'), document.getElementById('fileInput2')];
+
+    for (let i = 0; i < template.photos; i++) {
+      const btn = document.createElement('button');
+      btn.className = 'upload-btn';
+      btn.id = `uploadBtn${i}`;
+      btn.textContent = template.photos === 2
+        ? (i === 0 ? '📸 Upload Photo 1' : '📸 Upload Photo 2')
+        : '📸 Upload Your Photo';
+      btn.addEventListener('click', () => fileInputs[i].click());
+      uploadRow.appendChild(btn);
+
+      fileInputs[i].addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (evt) => addPhotoToCanvas(evt.target.result, i, btn);
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function addPhotoToCanvas(dataUrl, slotIndex, btnEl) {
+      fabric.Image.fromURL(dataUrl, (img) => {
+        const slot = photoSlots[slotIndex];
+        const targetSize = slot.r * 2 * 900;
+        const scale = targetSize / Math.max(img.width, img.height);
+
+        const clipCircle = new fabric.Circle({
+          radius: (targetSize / 2) / scale,
+          originX: 'center',
+          originY: 'center'
+        });
+
+        img.set({
+          left: slot.cx * 900,
+          top: slot.cy * 1600,
+          originX: 'center',
+          originY: 'center',
+          scaleX: scale,
+          scaleY: scale,
+          clipPath: clipCircle,
+          hasRotatingPoint: true
+        });
+
+        canvas.add(img);
+        canvas.setActiveObject(img);
+        canvas.renderAll();
+        btnEl.classList.add('filled');
+        btnEl.textContent = template.photos === 2
+          ? `✓ Photo ${slotIndex + 1} added — tap to replace`
+          : '✓ Photo added — tap to replace';
+      }, { crossOrigin: 'anonymous' });
+    }
+
+    // ---------- Text tool ----------
+    let currentFont = "'Cormorant Garamond', serif";
+    let currentColor = '#3A0F1E';
+
+    document.querySelectorAll('.font-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('.font-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        currentFont = chip.dataset.font;
+      });
+    });
+    document.querySelectorAll('.color-dot').forEach(dot => {
+      dot.addEventListener('click', () => {
+        document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
+        dot.classList.add('active');
+        currentColor = dot.dataset.color;
+      });
+    });
+
+    document.getElementById('addTextBtn').addEventListener('click', () => {
+      const value = document.getElementById('manualText').value.trim();
+      if (!value) return;
+      const textbox = new fabric.Textbox(value, {
+        left: 450,
+        top: 1150,
+        originX: 'center',
+        originY: 'center',
+        width: 700,
+        fontFamily: currentFont,
+        fill: currentColor,
+        fontSize: 42,
+        textAlign: 'center'
+      });
+      canvas.add(textbox);
+      canvas.setActiveObject(textbox);
+      canvas.renderAll();
+    });
+
+    // AI mode switch (UI only for now)
+    document.querySelectorAll('.mode-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const isAI = btn.dataset.mode === 'ai';
+        document.getElementById('manualMode').style.display = isAI ? 'none' : 'block';
+        document.getElementById('aiMode').style.display = isAI ? 'block' : 'none';
+      });
+    });
+    document.getElementById('aiGenerateBtn').addEventListener('click', () => {
+      alert('AI writing is coming very soon — please use "Write it myself" for now.');
+    });
+
+    // ---------- Tool tabs ----------
+    document.querySelectorAll('.tool-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tool-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tool-panel').forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(`panel-${tab.dataset.tool}`).classList.add('active');
+      });
+    });
+
+    // ---------- Selected object controls ----------
+    document.getElementById('bringForward').addEventListener('click', () => {
+      const obj = canvas.getActiveObject();
+      if (obj) { canvas.bringForward(obj); canvas.renderAll(); }
+    });
+    document.getElementById('sendBackward').addEventListener('click', () => {
+      const obj = canvas.getActiveObject();
+      if (obj) { canvas.sendBackwards(obj); canvas.renderAll(); }
+    });
+    document.getElementById('deleteObj').addEventListener('click', () => {
+      const obj = canvas.getActiveObject();
+      if (obj) { canvas.remove(obj); canvas.renderAll(); }
+    });
+
+    // ---------- Download flow ----------
+    const modal = document.getElementById('downloadModal');
+    const previewImg = document.getElementById('previewImg');
+    let lastDataUrl = '';
+
+    function renderWithWatermark(callback) {
+      canvas.discardActiveObject();
+      canvas.renderAll();
+      const baseDataUrl = canvas.toDataURL({ format: 'png', multiplier: 1 });
+
+      const wmCanvas = document.createElement('canvas');
+      wmCanvas.width = 900;
+      wmCanvas.height = 1600;
+      const ctx = wmCanvas.getContext('2d');
+      const baseImg = new Image();
+      baseImg.onload = () => {
+        ctx.drawImage(baseImg, 0, 0);
+        const logo = new Image();
+        logo.crossOrigin = 'anonymous';
+        logo.onload = () => {
+          const logoW = 90, logoH = 90 * (logo.height / logo.width);
+          ctx.globalAlpha = 0.55;
+          ctx.drawImage(logo, 900 - logoW - 24, 1600 - logoH - 24, logoW, logoH);
+          ctx.globalAlpha = 1;
+          callback(wmCanvas.toDataURL('image/png'));
+        };
+        logo.onerror = () => callback(wmCanvas.toDataURL('image/png'));
+        logo.src = 'assets/logo-icon.png';
+      };
+      baseImg.src = baseDataUrl;
+    }
+
+    document.getElementById('openDownload').addEventListener('click', () => {
+      renderWithWatermark((dataUrl) => {
+        lastDataUrl = dataUrl;
+        previewImg.src = dataUrl;
+        modal.classList.add('show');
+      });
+    });
+
+    document.getElementById('closeModal').addEventListener('click', () => {
+      modal.classList.remove('show');
+    });
+
+    document.getElementById('confirmDownload').addEventListener('click', () => {
+      const link = document.createElement('a');
+      link.download = `precardai-${templateId}.png`;
+      link.href = lastDataUrl;
+      link.click();
+    });
+
+    document.getElementById('hdDownload').addEventListener('click', () => {
+      alert('HD download (₹9, no watermark) is coming soon — payments are being set up next.');
+    });
+  </script>
+
+</body>
+</html>
