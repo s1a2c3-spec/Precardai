@@ -1,0 +1,20 @@
+{
+  "name": "precardai",
+  "version": "1.0.0",
+  "description": "PreCardAI — AI-powered card studio for creating personalised cards for weddings, birthdays and pooja",
+  "private": true,
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'Static HTML site - no build required'"
+  },
+  "dependencies": {
+    "@vercel/analytics": "^1.4.1"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "vercel",
+    "analytics",
+    "cards",
+    "ai"
+  ]
+}
