@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — PreCardAI</title>
+<meta name="description" content="PreCardAI helps you turn feelings into wishes — personalised AI-powered cards for birthdays, weddings, pooja and Diwali.">
+<link rel="canonical" href="https://precardai.vercel.app/about.html">
+<link rel="icon" href="assets/favicon.png" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#4C1D95; --ink-soft:#6D28D9; --ink-deep:#2E1065; --rose:#EC4899;
+    --rose-soft:#F9A8D4; --gold:#D4A537; --lavender-bg:#F6F4FC; --lavender-card:#EDE9FE;
+    --paper:#FFFFFF; --text-body:#3B2E5A; --muted:#8B7FA8;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--text-body);}
+  a{color:var(--ink);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  img{max-width:100%;display:block;}
+
+  header{
+    position:sticky;top:0;display:flex;align-items:center;justify-content:space-between;
+    padding:14px 20px;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(76,29,149,0.08);z-index:100;
+  }
+  .brand{display:flex;align-items:center;gap:8px;}
+  .brand img{height:30px;width:30px;object-fit:contain;}
+  .brand-name{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:19px;color:var(--ink-deep);}
+  .brand-name em{font-style:normal;color:var(--rose);}
+  .back-link{font-size:13px;color:var(--ink);font-weight:500;}
+
+  main{max-width:680px;margin:0 auto;padding:56px 22px 80px;}
+  .eyebrow{
+    font-family:'Poppins',sans-serif;font-size:11px;font-weight:600;
+    letter-spacing:2px;text-transform:uppercase;color:var(--rose);
+  }
+  h1{
+    font-family:'Cormorant Garamond',serif;font-weight:600;font-style:italic;
+    font-size:34px;color:var(--ink-deep);margin:10px 0 20px;
+  }
+  h2{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:20px;color:var(--ink-deep);margin:28px 0 10px;}
+  p{font-size:15px;line-height:1.75;margin-bottom:14px;}
+
+  .value-grid{display:grid;grid-template-columns:1fr;gap:14px;margin:24px 0;}
+  .value-card{background:var(--lavender-card);border-radius:14px;padding:18px;}
+  .value-card h3{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--ink-deep);margin-bottom:4px;}
+  .value-card p{font-size:13px;color:var(--muted);margin:0;}
+
+  @media (min-width:640px){.value-grid{grid-template-columns:1fr 1fr;}}
+
+  footer{padding:32px 20px;text-align:center;background:var(--ink-deep);color:#D8CCF0;}
+  footer .brand{justify-content:center;margin-bottom:12px;}
+  footer .brand-name{color:#fff;}
+  .footer-links{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:14px;}
+  .footer-links a{color:#D8CCF0;font-size:12px;text-decoration:none;}
+  .footer-links a:hover{color:var(--rose-soft);}
+  footer p{font-size:11.5px;color:#9A85C4;}
+</style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="brand">
+      <img src="assets/logo-icon.png" alt="PreCardAI logo">
+      <span class="brand-name">Pre<em>Card</em>AI</span>
+    </a>
+    <a href="index.html" class="back-link">← Home</a>
+  </header>
+
+  <main>
+    <div class="eyebrow">Our Story</div>
+    <h1>Every wish deserves to feel personal</h1>
+
+    <p>PreCardAI started with a simple idea: the cards people send for birthdays, weddings, and festivals should feel like they were made just for the person receiving them — not picked off a shelf.</p>
+
+    <p>We built a place where anyone can turn a photo and a feeling into a wish worth sending — no design skills, no expensive software, just a template, your own words (or AI to help find them), and a moment made a little more special.</p>
+
+    <h2>What we believe</h2>
+    <div class="value-grid">
+      <div class="value-card">
+        <h3>Wishes, not invitations</h3>
+        <p>PreCardAI cards are for sending love, not managing guest lists — simple, warm, and personal.</p>
+      </div>
+      <div class="value-card">
+        <h3>Made for every occasion</h3>
+        <p>Birthdays, weddings, pooja, Diwali, and more — because every celebration deserves its own card.</p>
+      </div>
+      <div class="value-card">
+        <h3>AI that helps, not replaces</h3>
+        <p>Our AI suggests words when you need them — the feeling behind the wish is always yours.</p>
+      </div>
+      <div class="value-card">
+        <h3>Free to start</h3>
+        <p>Anyone can create and download a card for free — no signup required to try it out.</p>
+      </div>
+    </div>
+
+    <h2>Where we're headed</h2>
+    <p>We're adding more occasions, more designs, and new ways to make a wish feel personal — including voice messages and reminders so you never miss a moment that matters.</p>
+  </main>
+
+  <footer>
+    <div class="brand">
+      <img src="assets/logo-icon.png" alt="PreCardAI" style="height:26px;width:26px;">
+      <span class="brand-name">PreCardAI</span>
+    </div>
+    <div class="footer-links">
+      <a href="about.html">About</a>
+      <a href="blog.html">Blog</a>
+      <a href="contact-us.html">Contact Us</a>
+      <a href="terms-and-conditions.html">Terms & Conditions</a>
+      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="refund-policy.html">Refund Policy</a>
+    </div>
+    <p>© 2026 PreCardAI. Every wish, made personal.</p>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Card Templates for Wedding, Birthday & Pooja — PreCardAI</title>
+<meta name="description" content="Browse PreCardAI's AI-powered card templates for weddings, birthdays and pooja. Add your photos, write your message, and download in HD.">
+<link rel="canonical" href="https://precardai.vercel.app/templates.html">
+<link rel="icon" href="assets/favicon.png" type="image/png">
+
+<!-- Open Graph (WhatsApp / Facebook link previews) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Card Templates for Wedding, Birthday & Pooja — PreCardAI">
+<meta property="og:description" content="Browse AI-powered card templates for weddings, birthdays and pooja. Add your photos, write your message, download in HD.">
+<meta property="og:image" content="https://precardai.vercel.app/assets/og-cover.jpg">
+<meta property="og:url" content="https://precardai.vercel.app/templates.html">
+<meta property="og:site_name" content="PreCardAI">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Card Templates for Wedding, Birthday & Pooja — PreCardAI">
+<meta name="twitter:description" content="Browse AI-powered card templates for weddings, birthdays and pooja.">
+<meta name="twitter:image" content="https://precardai.vercel.app/assets/og-cover.jpg">
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600&display=swap" rel="stylesheet">
+
+<!-- Structured Data: helps Google understand this is the template gallery -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://precardai.vercel.app/" },
+    { "@type": "ListItem", "position": 2, "name": "Templates", "item": "https://precardai.vercel.app/templates.html" }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Card Templates for Wedding, Birthday & Pooja",
+  "url": "https://precardai.vercel.app/templates.html",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "PreCardAI",
+    "url": "https://precardai.vercel.app/"
+  }
+}
+</script>
+
+<style>
+  :root{
+    --ink:#4C1D95;
+    --ink-soft:#6D28D9;
+    --ink-deep:#2E1065;
+    --gold:#D4A537;
+    --rose-soft:#F9A8D4;
+    --rose:#EC4899;
+    --paper:#F6F4FC;
+    --paper-deep:#EDE9FE;
+    --text-body:#3B2E5A;
+    --muted:#8B7FA8;
+    --white:#FFFFFF;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--text-body);overflow-x:hidden;}
+  a{text-decoration:none;color:inherit;}
+  img{max-width:100%;display:block;}
+  button{font-family:inherit;cursor:pointer;}
+  a:focus-visible, button:focus-visible{outline:2px solid var(--rose);outline-offset:3px;border-radius:2px;}
+
+  .texture-dots{
+    position:fixed;inset:0;
+    background-image:radial-gradient(rgba(76,29,149,0.06) 1px, transparent 1px);
+    background-size:22px 22px;pointer-events:none;z-index:0;opacity:0.5;
+  }
+  header, main, footer{position:relative;z-index:1;}
+
+  .eyebrow{
+    font-family:'Poppins',sans-serif;font-size:11px;font-weight:600;
+    letter-spacing:2.5px;text-transform:uppercase;color:var(--rose);
+  }
+
+  header{
+    position:fixed;top:0;left:0;right:0;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 20px;background:rgba(246,244,252,0.9);
+    backdrop-filter:blur(10px);border-bottom:1px solid rgba(76,29,149,0.08);z-index:1000;
+  }
+  .brand{display:flex;align-items:center;gap:8px;}
+  .brand img{height:30px;width:30px;object-fit:contain;}
+  .brand-name{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:19px;color:var(--ink);}
+  .brand-name em{font-style:normal;color:var(--gold);}
+  .back-link{font-size:13px;color:var(--ink);display:flex;align-items:center;gap:5px;font-weight:500;}
+
+  .page-head{padding:110px 20px 30px;text-align:center;}
+  .page-head h1{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:32px;color:var(--ink);margin:10px 0 8px;}
+  .page-head p{font-size:14px;color:var(--muted);max-width:380px;margin:0 auto;line-height:1.6;}
+
+  .filter-bar{
+    position:sticky;top:60px;z-index:100;background:var(--paper);
+    padding:14px 20px 16px;display:flex;gap:8px;overflow-x:auto;
+    justify-content:center;border-bottom:1px solid rgba(76,29,149,0.08);
+  }
+  .filter-bar::-webkit-scrollbar{display:none;}
+  .filter-btn{
+    flex-shrink:0;padding:9px 18px;border-radius:20px;font-size:13px;font-weight:500;
+    background:var(--white);border:1px solid rgba(76,29,149,0.15);color:var(--ink);
+    transition:background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+  .filter-btn.active{background:var(--ink);color:var(--white);border-color:var(--ink);}
+
+  .grid-wrap{padding:20px 16px 40px;}
+  .search-notice{
+    max-width:460px;margin:0 auto 4px;padding:0 16px;
+    font-size:12.5px;color:var(--muted);
+    display:flex;align-items:center;justify-content:center;gap:8px;
+  }
+  .search-notice button{
+    color:var(--ink);font-weight:600;text-decoration:underline;font-size:12.5px;
+  }
+  .template-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:460px;margin:0 auto;}
+  .t-card{background:var(--white);border:1px solid rgba(76,29,149,0.08);border-radius:10px;overflow:hidden;transition:transform 0.2s ease, box-shadow 0.2s ease;}
+  .t-card:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(76,29,149,0.1);}
+  .t-card:active{transform:scale(0.97);}
+
+  .t-preview{position:relative;aspect-ratio:9/16;display:flex;align-items:center;justify-content:center;overflow:hidden;background:var(--paper-deep);}
+  .t-preview img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+  .t-preview .badge-count{
+    position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.4);color:#fff;
+    font-size:9px;font-weight:500;padding:3px 7px;border-radius:20px;backdrop-filter:blur(4px);z-index:2;
+  }
+
+  .t-info{padding:9px 10px 11px;}
+  .t-name{font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:600;color:var(--ink);line-height:1.25;}
+  .t-tag{font-size:10px;color:var(--muted);margin-top:1px;margin-bottom:8px;}
+  .t-use{
+    display:block;width:100%;background:var(--ink);color:var(--white);
+    font-size:11.5px;font-weight:500;padding:7px 0;border-radius:20px;
+    text-align:center;transition:transform 0.15s ease;
+  }
+  .t-use:active{transform:scale(0.94);}
+
+  .empty-state{text-align:center;padding:60px 20px;color:var(--muted);display:none;grid-column:1/-1;}
+
+  /* SHARE SECTION */
+  .share-section{padding:20px 20px 80px;}
+  .share-card{
+    max-width:440px;margin:0 auto;
+    background:linear-gradient(150deg,var(--ink),#2E1065);
+    color:var(--white);border-radius:12px;padding:26px 22px;text-align:center;
+    position:relative;overflow:hidden;
+  }
+  .share-card::before{
+    content:"";position:absolute;width:220px;height:220px;
+    background:radial-gradient(circle, rgba(212,165,55,0.2), transparent 70%);
+    top:-80px;right:-60px;
+  }
+  .share-card h3{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;margin-bottom:6px;position:relative;}
+  .share-card p{font-size:12.5px;opacity:0.8;margin-bottom:18px;position:relative;line-height:1.6;}
+  .share-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;position:relative;}
+  .share-btn{
+    display:flex;align-items:center;gap:6px;padding:10px 16px;border-radius:20px;
+    font-size:12.5px;font-weight:500;border:none;background:rgba(255,255,255,0.12);color:var(--white);
+    transition:transform 0.15s ease;
+  }
+  .share-btn:active{transform:scale(0.95);}
+  .share-btn.whatsapp{background:#25D366;color:#0b3b1e;}
+  .share-btn.facebook{background:#3b5998;color:#fff;}
+  .share-btn.native{background:var(--rose-soft);color:var(--ink);}
+
+  footer{padding:32px 20px;text-align:center;background:#2E1065;color:#D8CCF0;}
+  footer .brand{justify-content:center;margin-bottom:10px;}
+  footer .brand-name{color:var(--white);}
+  footer p{font-size:11.5px;color:#9A85C4;}
+  .footer-links{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:14px;}
+  .footer-links a{color:#D8CCF0;font-size:12px;text-decoration:none;}
+  .footer-links a:hover{color:var(--rose-soft);}
+
+  @media (min-width:480px){.template-grid{max-width:560px;grid-template-columns:1fr 1fr 1fr;}}
+  @media (min-width:640px){.template-grid{max-width:760px;}}
+  @media (min-width:960px){.template-grid{max-width:1100px;grid-template-columns:repeat(4,1fr);}}
+</style>
+</head>
+<body>
+
+  <div class="texture-dots"></div>
+
+  <header>
+    <a href="index.html" class="brand">
+      <img src="assets/logo-icon.png" alt="PreCardAI logo">
+      <span class="brand-name">Pre<em>Card</em>AI</span>
+    </a>
+    <a href="index.html" class="back-link">← Home</a>
+  </header>
+
+  <main>
+    <div class="page-head">
+      <div class="eyebrow">Template Gallery</div>
+      <h1>Pick a design to begin</h1>
+      <p>Choose an occasion, then a template. You'll add photos and your message on the next step.</p>
+    </div>
+
+    <div class="filter-bar" id="filterBar"></div>
+    <div class="search-notice" id="searchNotice" style="display:none;"></div>
+
+    <div class="grid-wrap">
+      <div class="template-grid" id="templateGrid"></div>
+      <div class="empty-state" id="emptyState"><p>No templates in this category yet.</p></div>
+    </div>
+
+    <div class="share-section">
+      <div class="share-card">
+        <h3>Know someone planning a celebration?</h3>
+        <p>Share PreCardAI with them — every card starts here.</p>
+        <div class="share-row" id="shareRow">
+          <button class="share-btn whatsapp" data-share="whatsapp">WhatsApp</button>
+          <button class="share-btn facebook" data-share="facebook">Facebook</button>
+          <button class="share-btn native" data-share="native">More / Instagram</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="brand">
+      <img src="assets/logo-icon.png" alt="PreCardAI logo" style="height:24px;width:24px;">
+      <span class="brand-name">PreCardAI</span>
+    </div>
+    <div class="footer-links">
+      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="terms-and-conditions.html">Terms & Conditions</a>
+      <a href="refund-policy.html">Refund Policy</a>
+      <a href="contact-us.html">Contact Us</a>
+    </div>
+    <p>© 2026 PreCardAI. Cards that feel personal.</p>
+  </footer>
+
+  <script src="assets/share.js"></script>
+  <script>
+    // ---------- Template data (self-contained — no separate file) ----------
+    // To add a template: add ONE line here + upload its image to assets/.
+    // Everything else (filter tabs, grid cards, photo count badge) is
+    // generated automatically, whether there are 9 templates or 900.
+    const OCCASIONS = [
+      { id: 'wedding',  label: 'Wedding',  photos: 2 },
+      { id: 'birthday', label: 'Birthday', photos: 1 },
+      { id: 'pooja',    label: 'Pooja',    photos: 1 },
+      { id: 'diwali',   label: 'Diwali',   photos: 1 },
+      { id: 'navratri', label: 'Navratri', photos: 1 }
+      /* Add a future occasion here the same way. */
+    ];
+
+    const TEMPLATE_LIST = [
+      { id: 'wedding-1',  occasion: 'wedding',  name: 'Ivory Vows',       tag: 'Elegant' },
+      { id: 'wedding-2',  occasion: 'wedding',  name: 'Rose Union',       tag: 'Romantic' },
+      { id: 'wedding-3',  occasion: 'wedding',  name: 'Midnight Mehfil',  tag: 'Bold' },
+      { id: 'birthday-1', occasion: 'birthday', name: 'Golden Confetti',  tag: 'Vibrant' },
+      { id: 'birthday-2', occasion: 'birthday', name: 'Sunset Balloons',  tag: 'Playful' },
+      { id: 'birthday-3', occasion: 'birthday', name: 'Rosy Celebration', tag: 'Warm' },
+      { id: 'pooja-1',    occasion: 'pooja',    name: 'Diya Blessing',    tag: 'Traditional' },
+      { id: 'pooja-2',    occasion: 'pooja',    name: 'Marigold Path',    tag: 'Festive' },
+      { id: 'pooja-3',    occasion: 'pooja',    name: 'Sacred Ornate',    tag: 'Ornate' }
+
+      /* Example of adding more — just keep appending:
+      { id: 'birthday-4', occasion: 'birthday', name: 'New Design', tag: 'Fresh' },
+      { id: 'pooja-4',    occasion: 'pooja',    name: 'Another One', tag: 'Ornate' },
+      */
+    ];
+
+    const filterBar = document.getElementById('filterBar');
+    const templateGrid = document.getElementById('templateGrid');
+    const emptyState = document.getElementById('emptyState');
+    const searchNotice = document.getElementById('searchNotice');
+    let currentSearch = '';
+
+    function occasionMeta(occasionId) {
+      return OCCASIONS.find(o => o.id === occasionId) || { label: occasionId, photos: 1 };
+    }
+
+    function renderFilterBar(activeType) {
+      const allBtn = `<button class="filter-btn${activeType === 'all' ? ' active' : ''}" data-type="all">All</button>`;
+      const occasionBtns = OCCASIONS.map(o =>
+        `<button class="filter-btn${activeType === o.id ? ' active' : ''}" data-type="${o.id}">${o.label}</button>`
+      ).join('');
+      filterBar.innerHTML = allBtn + occasionBtns;
+      filterBar.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => renderTemplates(btn.dataset.type));
+      });
+    }
+
+    function renderTemplates(type) {
+      renderFilterBar(type);
+      const q = currentSearch.toLowerCase();
+      const visible = TEMPLATE_LIST.filter(t => {
+        const matchesType = type === 'all' || t.occasion === type;
+        if (!matchesType) return false;
+        if (!q) return true;
+        const meta = occasionMeta(t.occasion);
+        return t.name.toLowerCase().includes(q) ||
+               t.tag.toLowerCase().includes(q) ||
+               meta.label.toLowerCase().includes(q);
+      });
+
+      if (currentSearch) {
+        searchNotice.style.display = 'flex';
+        searchNotice.innerHTML = `Showing results for "${currentSearch}" <button id="clearSearchBtn">Clear</button>`;
+        document.getElementById('clearSearchBtn').addEventListener('click', () => {
+          currentSearch = '';
+          const url = new URL(window.location);
+          url.searchParams.delete('search');
+          window.history.replaceState({}, '', url);
+          renderTemplates('all');
+        });
+      } else {
+        searchNotice.style.display = 'none';
+      }
+
+      templateGrid.innerHTML = visible.map(t => {
+        const meta = occasionMeta(t.occasion);
+        const label = meta.photos === 2 ? '2 photos' : '1 photo';
+        return `
+          <div class="t-card">
+            <div class="t-preview">
+              <img src="assets/${t.id}.jpg" alt="${t.name} ${meta.label} card template">
+              <span class="badge-count">${label}</span>
+            </div>
+            <div class="t-info">
+              <div class="t-name">${t.name}</div>
+              <div class="t-tag">${meta.label} · ${t.tag}</div>
+              <a href="editor.html?template=${t.id}" class="t-use">Use</a>
+            </div>
+          </div>`;
+      }).join('');
+
+      emptyState.style.display = visible.length === 0 ? 'block' : 'none';
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const initialType = params.get('type');
+    const initialSearch = params.get('search');
+    const validTypes = OCCASIONS.map(o => o.id);
+    if (initialSearch) currentSearch = initialSearch;
+    renderTemplates(validTypes.includes(initialType) ? initialType : 'all');
+
+    // Share buttons
+    PreCardShare.initShareButtons(document.getElementById('shareRow'), {
+      title: 'PreCardAI',
+      text: 'Check out PreCardAI — make personalised cards for weddings, birthdays and pooja:',
+      url: window.location.origin
+    });
+  </script>
+
+</body>
+</html>
