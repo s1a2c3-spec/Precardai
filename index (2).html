@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="PreCardAI — create heartfelt wishing cards for birthdays, weddings, pooja and Diwali. Add your photo, let AI write the words, and send a wish in seconds.">
+<title>PreCardAI — Send a Wish, Not Just a Card</title>
+<link rel="canonical" href="https://precardai.vercel.app/">
+<link rel="icon" href="assets/favicon.png" type="image/png">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="PreCardAI — Send a Wish, Not Just a Card">
+<meta property="og:description" content="Create heartfelt wishing cards for birthdays, weddings, pooja and Diwali — personalised with your photo and AI-written words.">
+<meta property="og:image" content="https://precardai.vercel.app/assets/og-cover.jpg">
+<meta property="og:url" content="https://precardai.vercel.app/">
+<meta property="og:site_name" content="PreCardAI">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PreCardAI — Send a Wish, Not Just a Card">
+<meta name="twitter:image" content="https://precardai.vercel.app/assets/og-cover.jpg">
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600&display=swap" rel="stylesheet">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "PreCardAI",
+  "url": "https://precardai.vercel.app/",
+  "applicationCategory": "DesignApplication",
+  "description": "Create and send personalised AI-written wishing cards for birthdays, weddings, pooja and Diwali.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is PreCardAI free to use?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. You can design and download a wishing card for free, with a small PreCardAI watermark. Paid HD downloads and a subscription plan are also available." }
+    },
+    {
+      "@type": "Question",
+      "name": "Can AI write the wishing message for me?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. Tell PreCardAI who the wish is for, the tone you want, and your preferred language (Hindi, English, or Hinglish), and it will write a few options to choose from." }
+    },
+    {
+      "@type": "Question",
+      "name": "What occasions does PreCardAI support?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Birthdays, weddings, pooja, and Diwali, with more occasions being added regularly." }
+    }
+  ]
+}
+</script>
+
+<style>
+  :root{
+    --ink:#4C1D95;
+    --ink-soft:#6D28D9;
+    --ink-deep:#2E1065;
+    --rose:#EC4899;
+    --rose-soft:#F9A8D4;
+    --gold:#D4A537;
+    --lavender-bg:#F6F4FC;
+    --lavender-card:#EDE9FE;
+    --paper:#FFFFFF;
+    --text-body:#3B2E5A;
+    --muted:#8B7FA8;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Inter',sans-serif;
+    background:var(--paper);
+    color:var(--text-body);
+    overflow-x:hidden;
+  }
+  a{text-decoration:none;color:inherit;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;}
+  img{max-width:100%;display:block;}
+  ul{list-style:none;}
+
+  a:focus-visible, button:focus-visible, input:focus-visible{
+    outline:2px solid var(--ink);
+    outline-offset:2px;
+    border-radius:2px;
+  }
+
+  .eyebrow{
+    font-family:'Poppins',sans-serif;
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--rose);
+  }
+
+  /* ===== NAVBAR ===== */
+  header{
+    position:sticky;top:0;left:0;right:0;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 20px;
+    background:rgba(255,255,255,0.92);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(76,29,149,0.08);
+    z-index:1000;
+    gap:12px;
+  }
+  .brand{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+  .brand img{height:32px;width:32px;object-fit:contain;}
+  .brand-name{
+    font-family:'Cormorant Garamond',serif;
+    font-weight:600;
+    font-size:20px;
+    color:var(--ink-deep);
+  }
+  .brand-name em{font-style:normal;color:var(--rose);}
+
+  .nav-links{
+    display:none;
+    gap:22px;
+    font-size:14px;
+    font-weight:500;
+    color:var(--text-body);
+  }
+  .nav-links a:hover{color:var(--ink);}
+
+  .nav-actions{display:flex;align-items:center;gap:10px;}
+  .search-wrap{position:relative;display:flex;align-items:center;}
+  .search-toggle{
+    width:34px;height:34px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--ink);font-size:16px;
+  }
+  .search-toggle:hover{background:var(--lavender-card);}
+  .search-box{
+    position:absolute;right:0;top:44px;
+    width:0;opacity:0;pointer-events:none;
+    background:var(--paper);border:1px solid rgba(76,29,149,0.15);
+    border-radius:10px;box-shadow:0 12px 30px rgba(76,29,149,0.15);
+    padding:8px;display:flex;gap:6px;
+    transition:width 0.25s ease, opacity 0.2s ease;
+  }
+  .search-box.open{width:230px;opacity:1;pointer-events:auto;}
+  .search-box input{
+    flex:1;border:none;outline:none;font-size:13px;padding:6px 8px;
+    font-family:'Inter',sans-serif;color:var(--text-body);min-width:0;
+  }
+  .search-box button{
+    background:var(--ink);color:#fff;font-size:12px;font-weight:500;
+    padding:6px 12px;border-radius:6px;flex-shrink:0;
+  }
+
+  .btn-signin{
+    font-size:13px;font-weight:500;color:var(--ink);
+    padding:8px 14px;border:1.3px solid var(--ink);border-radius:20px;
+    display:none;
+  }
+  .btn-signup{
+    font-size:13px;font-weight:600;color:#fff;
+    background:linear-gradient(135deg,var(--ink),var(--ink-soft));
+    padding:8px 16px;border-radius:20px;
+    box-shadow:0 6px 16px rgba(76,29,149,0.25);
+    display:none;
+  }
+  .btn-signin:active, .btn-signup:active{transform:scale(0.96);}
+
+  .menu-toggle{
+    width:34px;height:34px;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:4px;flex-shrink:0;
+  }
+  .menu-toggle span{width:19px;height:2px;background:var(--ink-deep);border-radius:2px;}
+
+  @media (min-width:860px){
+    .nav-links{display:flex;}
+    .btn-signin, .btn-signup{display:inline-block;}
+  }
+
+  /* ===== SIDE MENU ===== */
+  .side-menu-overlay{
+    position:fixed;inset:0;background:rgba(46,16,101,0.4);
+    z-index:1500;opacity:0;pointer-events:none;transition:opacity 0.25s ease;
+  }
+  .side-menu-overlay.open{opacity:1;pointer-events:auto;}
+  .side-menu{
+    position:fixed;top:0;right:0;bottom:0;width:280px;max-width:82vw;
+    background:var(--paper);z-index:1600;
+    transform:translateX(100%);transition:transform 0.3s ease;
+    padding:22px 22px 30px;display:flex;flex-direction:column;
+  }
+  .side-menu.open{transform:translateX(0);}
+  .side-menu-close{align-self:flex-end;font-size:22px;color:var(--ink-deep);margin-bottom:20px;}
+  .side-menu a{
+    padding:13px 4px;font-size:15px;font-weight:500;color:var(--text-body);
+    border-bottom:1px solid rgba(76,29,149,0.08);
+  }
+  .side-menu a:hover{color:var(--ink);}
+  .side-menu .side-signup{
+    margin-top:20px;text-align:center;background:linear-gradient(135deg,var(--ink),var(--ink-soft));
+    color:#fff;padding:12px;border-radius:20px;font-weight:600;font-size:14px;
+  }
+
+  /* ===== HERO ===== */
+  .hero{
+    padding:44px 20px 40px;
+    display:flex;flex-direction:column;gap:28px;
+    background:linear-gradient(180deg,var(--lavender-bg),#ffffff);
+  }
+  .hero-copy{text-align:left;}
+  .hero-copy .eyebrow{margin-bottom:14px;}
+  .hero h1{
+    font-family:'Cormorant Garamond',serif;
+    font-weight:600;
+    font-style:italic;
+    font-size:clamp(30px,7.5vw,42px);
+    line-height:1.2;
+    color:var(--ink-deep);
+    margin-bottom:14px;
+    max-width:480px;
+  }
+  .hero p.sub{
+    font-size:15px;line-height:1.65;color:var(--muted);
+    max-width:440px;margin-bottom:22px;
+  }
+
+  .quick-cats{
+    display:grid;grid-template-columns:1fr 1fr;gap:10px;
+    max-width:420px;margin-bottom:22px;
+  }
+  .quick-cat{
+    padding:14px;border-radius:14px;
+    display:flex;flex-direction:column;gap:4px;
+    transition:transform 0.15s ease;
+  }
+  .quick-cat:active{transform:scale(0.96);}
+  .quick-cat .mark{font-size:20px;}
+  .quick-cat .name{font-size:13.5px;font-weight:600;color:var(--ink-deep);}
+  .quick-cat .desc{font-size:11px;color:var(--muted);}
+  .cat-birthday{background:#FCE7F3;}
+  .cat-wedding{background:#EDE9FE;}
+  .cat-pooja{background:#FEF3C7;}
+  .cat-diwali{background:#DBEAFE;}
+
+  .hero-cta{
+    display:inline-flex;align-items:center;gap:8px;
+    background:linear-gradient(135deg,var(--ink),var(--ink-deep));
+    color:#fff;padding:15px 28px;border-radius:26px;
+    font-size:14px;font-weight:600;
+    box-shadow:0 10px 26px rgba(76,29,149,0.3);
+    width:fit-content;
+  }
+  .hero-cta:active{transform:scale(0.97);}
+
+  .trust-row{
+    display:flex;flex-wrap:wrap;gap:14px;margin-top:22px;
+    font-size:11.5px;color:var(--muted);
+  }
+  .trust-row span{display:flex;align-items:center;gap:5px;}
+
+  .hero-image{border-radius:20px;overflow:hidden;box-shadow:0 20px 50px rgba(76,29,149,0.18);}
+  .hero-image img{width:100%;height:auto;}
+
+  @media (min-width:900px){
+    .hero{
+      flex-direction:row;align-items:center;
+      padding:70px 40px;max-width:1200px;margin:0 auto;
+      gap:50px;
+    }
+    .hero-copy{flex:1;}
+    .hero-image{flex:1;}
+  }
+
+  /* ===== SECTION HEAD ===== */
+  .section-head{text-align:center;max-width:480px;margin:0 auto 34px;padding:0 20px;}
+  .section-head h2{
+    font-family:'Cormorant Garamond',serif;font-weight:600;font-style:italic;
+    font-size:28px;color:var(--ink-deep);margin-top:8px;
+  }
+  .section-head p{font-size:14px;color:var(--muted);margin-top:8px;line-height:1.6;}
+
+  /* ===== EXPLORE ===== */
+  .explore{padding:60px 20px;}
+  .explore-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:14px;
+    max-width:480px;margin:0 auto;
+  }
+  .explore-card{
+    border-radius:16px;overflow:hidden;background:var(--lavender-card);
+    transition:transform 0.15s ease;
+  }
+  .explore-card:active{transform:scale(0.97);}
+  .explore-thumb{aspect-ratio:4/3;position:relative;overflow:hidden;}
+  .explore-thumb img{width:100%;height:100%;object-fit:cover;}
+  .explore-thumb.placeholder{
+    display:flex;align-items:center;justify-content:center;font-size:30px;
+  }
+  .explore-info{padding:10px 12px 13px;display:flex;align-items:center;gap:8px;}
+  .explore-info .mark{
+    width:26px;height:26px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff;flex-shrink:0;
+  }
+  .explore-info h3{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:600;color:var(--ink-deep);}
+  .explore-info p{font-size:10.5px;color:var(--muted);}
+
+  @media (min-width:700px){.explore-grid{max-width:900px;grid-template-columns:repeat(4,1fr);}}
+
+  /* ===== HOW IT WORKS ===== */
+  .how{padding:60px 20px 70px;background:var(--lavender-bg);}
+  .steps{max-width:460px;margin:0 auto;position:relative;}
+  .steps::before{content:"";position:absolute;left:17px;top:6px;bottom:6px;width:1px;background:rgba(76,29,149,0.15);}
+  .step{display:flex;gap:16px;padding:18px 0;position:relative;}
+  .step-num{
+    min-width:34px;height:34px;border-radius:50%;
+    background:var(--ink);color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Cormorant Garamond',serif;font-weight:600;font-size:15px;
+    flex-shrink:0;z-index:1;
+  }
+  .step h4{font-size:15px;font-weight:600;color:var(--ink-deep);margin-bottom:3px;}
+  .step p{font-size:13px;color:var(--muted);line-height:1.6;}
+
+  /* ===== CTA BANNER (curved) ===== */
+  .cta-banner{
+    position:relative;
+    background:linear-gradient(135deg,var(--ink-deep),var(--ink));
+    padding:90px 24px 70px;
+    text-align:center;color:#fff;
+    overflow:hidden;
+  }
+  .cta-banner::before{
+    content:"";position:absolute;top:-1px;left:0;right:0;height:60px;
+    background:var(--paper);
+    border-radius:50% 50% 0 0 / 100% 100% 0 0;
+    transform:scaleX(1.5);
+  }
+  .cta-banner .glow{
+    position:absolute;width:360px;height:360px;
+    background:radial-gradient(circle, rgba(236,72,153,0.25), transparent 70%);
+    top:20%;right:-100px;
+  }
+  .cta-banner h2{
+    font-family:'Cormorant Garamond',serif;font-weight:600;font-style:italic;
+    font-size:30px;margin-bottom:12px;position:relative;
+  }
+  .cta-banner p{font-size:14px;opacity:0.85;margin-bottom:26px;position:relative;}
+  .cta-signup{
+    background:#fff;color:var(--ink-deep);padding:14px 30px;border-radius:24px;
+    font-weight:600;font-size:14px;display:inline-block;position:relative;
+  }
+  .cta-signup:active{transform:scale(0.97);}
+  .cta-banner .signin-note{
+    margin-top:16px;font-size:12.5px;opacity:0.75;position:relative;
+  }
+  .cta-banner .signin-note a{text-decoration:underline;font-weight:600;}
+
+  /* ===== FOOTER ===== */
+  footer{padding:32px 20px;text-align:center;background:var(--ink-deep);color:#D8CCF0;}
+  footer .brand{justify-content:center;margin-bottom:12px;}
+  footer .brand-name{color:#fff;}
+  .footer-links{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:14px;}
+  .footer-links a{color:#D8CCF0;font-size:12px;}
+  .footer-links a:hover{color:var(--rose-soft);}
+  footer p{font-size:11.5px;color:#9A85C4;}
+
+  /* ===== SCROLL REVEAL ===== */
+  .reveal{
+    opacity:0;
+    transform:translateY(24px);
+    transition:opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.in-view{opacity:1;transform:translateY(0);}
+  .reveal-stagger.in-view .reveal-child:nth-child(1){transition-delay:0s;}
+  .reveal-stagger.in-view .reveal-child:nth-child(2){transition-delay:0.08s;}
+  .reveal-stagger.in-view .reveal-child:nth-child(3){transition-delay:0.16s;}
+  .reveal-stagger.in-view .reveal-child:nth-child(4){transition-delay:0.24s;}
+  .reveal-child{opacity:0;transform:translateY(18px);transition:opacity 0.6s ease, transform 0.6s ease;}
+  .reveal-stagger.in-view .reveal-child{opacity:1;transform:translateY(0);}
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    .reveal, .reveal-child{opacity:1;transform:none;transition:none;}
+  }
+</style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="brand">
+      <img src="assets/logo-icon.png" alt="PreCardAI logo">
+      <span class="brand-name">Pre<em>Card</em>AI</span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="templates.html">Templates</a>
+      <a href="#how-it-works">How It Works</a>
+      <a href="about.html">About</a>
+    </nav>
+
+    <div class="nav-actions">
+      <div class="search-wrap">
+        <button class="search-toggle" id="searchToggle" aria-label="Search templates">🔍</button>
+        <div class="search-box" id="searchBox">
+          <input type="text" id="searchInput" placeholder="Search wishes…" aria-label="Search templates">
+          <button id="searchGo">Go</button>
+        </div>
+      </div>
+      <a href="#" class="btn-signin" id="signInBtn">Sign In</a>
+      <a href="#" class="btn-signup" id="signUpBtn">Sign Up</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="side-menu-overlay" id="sideMenuOverlay"></div>
+  <div class="side-menu" id="sideMenu">
+    <button class="side-menu-close" id="sideMenuClose" aria-label="Close menu">✕</button>
+    <a href="index.html">Home</a>
+    <a href="templates.html">Templates</a>
+    <a href="about.html">About</a>
+    <a href="blog.html">Blog</a>
+    <a href="contact-us.html">Contact Us</a>
+    <a href="terms-and-conditions.html">Terms & Conditions</a>
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <a href="refund-policy.html">Refund Policy</a>
+    <a href="#" class="side-signup" id="sideSignUp">Sign Up Free</a>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-copy">
+      <div class="eyebrow">AI-Powered Wishing Cards</div>
+      <h1>Turn every feeling into a wish worth sending</h1>
+      <p class="sub">Design a heartfelt wishing card for birthdays, weddings, pooja and Diwali — add your photo, let AI find the words, and send it to someone who'll love it.</p>
+
+      <div class="quick-cats">
+        <a href="templates.html?type=birthday" class="quick-cat cat-birthday">
+          <span class="mark">🎂</span>
+          <span class="name">Birthday</span>
+          <span class="desc">Wish them joy</span>
+        </a>
+        <a href="templates.html?type=wedding" class="quick-cat cat-wedding">
+          <span class="mark">💍</span>
+          <span class="name">Wedding</span>
+          <span class="desc">Bless the couple</span>
+        </a>
+        <a href="templates.html?type=pooja" class="quick-cat cat-pooja">
+          <span class="mark">🪔</span>
+          <span class="name">Pooja</span>
+          <span class="desc">Share blessings</span>
+        </a>
+        <a href="templates.html?type=diwali" class="quick-cat cat-diwali">
+          <span class="mark">✨</span>
+          <span class="name">Diwali</span>
+          <span class="desc">Spread the light</span>
+        </a>
+      </div>
+
+      <a href="templates.html" class="hero-cta">Create Your Wish →</a>
+
+      <div class="trust-row">
+        <span>✦ AI-written wishes</span>
+        <span>✦ Any occasion</span>
+        <span>✦ HD downloads</span>
+        <span>✦ Free to start</span>
+      </div>
+    </div>
+
+    <div class="hero-image">
+      <img src="assets/hero-photo.jpg" alt="PreCardAI wishing cards for birthday, wedding, pooja and Diwali displayed together">
+    </div>
+  </section>
+
+  <!-- EXPLORE -->
+  <section class="explore">
+    <div class="section-head reveal">
+      <div class="eyebrow">Browse Wishes</div>
+      <h2>Find the wish that fits the moment</h2>
+      <p>Every occasion has its own designs, tone, and layout.</p>
+    </div>
+    <div class="explore-grid reveal-stagger" id="exploreGrid"></div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how" id="how-it-works">
+    <div class="section-head reveal">
+      <div class="eyebrow">The Process</div>
+      <h2>From blank to sent, in four steps</h2>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-num">1</div>
+        <div><h4>Pick an occasion</h4><p>Birthday, wedding, pooja, or Diwali — choose a design you love.</p></div>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">2</div>
+        <div><h4>Make it personal</h4><p>Add a photo and write your message, or let AI suggest the words.</p></div>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">3</div>
+        <div><h4>Download it</h4><p>Save your finished wish in HD, ready to send.</p></div>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">4</div>
+        <div><h4>Send the wish</h4><p>Share it on WhatsApp, Instagram, or wherever they'll see it first.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BANNER -->
+  <section class="cta-banner">
+    <div class="glow"></div>
+    <h2 class="reveal">Your next wish is one click away</h2>
+    <p class="reveal">Join in and start sending wishes that feel personal.</p>
+    <a href="#" class="cta-signup reveal" id="ctaSignUp">Sign Up Free</a>
+    <div class="signin-note reveal">Already have an account? <a href="#" id="ctaSignIn">Sign In</a></div>
+  </section>
+
+  <footer>
+    <div class="brand">
+      <img src="assets/logo-icon.png" alt="PreCardAI" style="height:26px;width:26px;">
+      <span class="brand-name">PreCardAI</span>
+    </div>
+    <div class="footer-links">
+      <a href="about.html">About</a>
+      <a href="blog.html">Blog</a>
+      <a href="contact-us.html">Contact Us</a>
+      <a href="terms-and-conditions.html">Terms & Conditions</a>
+      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="refund-policy.html">Refund Policy</a>
+    </div>
+    <p>© 2026 PreCardAI. Every wish, made personal.</p>
+  </footer>
+
+  <script src="assets/share.js"></script>
+  <script>
+    // ---- Explore grid: data-driven, reuses real template thumbnails where available ----
+    const EXPLORE_OCCASIONS = [
+      { id:'birthday', label:'Birthday', desc:'Make their day', mark:'🎂', color:'#EC4899', thumb:'assets/birthday-1.jpg' },
+      { id:'wedding',  label:'Wedding',  desc:'Bless the couple', mark:'💍', color:'#6D28D9', thumb:'assets/wedding-1.jpg' },
+      { id:'pooja',    label:'Pooja',    desc:'Share blessings', mark:'🪔', color:'#D4A537', thumb:'assets/pooja-1.jpg' },
+      { id:'diwali',   label:'Diwali',   desc:'Spread the light', mark:'✨', color:'#2563EB', thumb:null }
+    ];
+    document.getElementById('exploreGrid').innerHTML = EXPLORE_OCCASIONS.map(o => `
+      <a href="templates.html?type=${o.id}" class="explore-card reveal-child">
+        <div class="explore-thumb${o.thumb ? '' : ' placeholder'}" style="${o.thumb ? '' : `background:linear-gradient(150deg, ${o.color}22, ${o.color}55);`}">
+          ${o.thumb ? `<img src="${o.thumb}" alt="${o.label} wishing card template">` : `<span>${o.mark}</span>`}
+        </div>
+        <div class="explore-info">
+          <span class="mark" style="background:${o.color};">${o.mark}</span>
+          <div><h3>${o.label}</h3><p>${o.desc}</p></div>
+        </div>
+      </a>`).join('');
+
+    // ---- Side menu ----
+    const sideMenu = document.getElementById('sideMenu');
+    const sideMenuOverlay = document.getElementById('sideMenuOverlay');
+    function openMenu(){ sideMenu.classList.add('open'); sideMenuOverlay.classList.add('open'); }
+    function closeMenu(){ sideMenu.classList.remove('open'); sideMenuOverlay.classList.remove('open'); }
+    document.getElementById('menuToggle').addEventListener('click', openMenu);
+    document.getElementById('sideMenuClose').addEventListener('click', closeMenu);
+    sideMenuOverlay.addEventListener('click', closeMenu);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+
+    // ---- Search: redirects to templates.html with a search query ----
+    const searchToggle = document.getElementById('searchToggle');
+    const searchBox = document.getElementById('searchBox');
+    const searchInput = document.getElementById('searchInput');
+    searchToggle.addEventListener('click', () => {
+      searchBox.classList.toggle('open');
+      if (searchBox.classList.contains('open')) searchInput.focus();
+    });
+    function runSearch(){
+      const q = searchInput.value.trim();
+      if (!q) return;
+      window.location.href = `templates.html?search=${encodeURIComponent(q)}`;
+    }
+    document.getElementById('searchGo').addEventListener('click', runSearch);
+    searchInput.addEventListener('keydown', e => { if (e.key === 'Enter') runSearch(); });
+
+    // ---- Sign In / Sign Up placeholders (accounts land in a later phase) ----
+    ['signInBtn','signUpBtn','ctaSignUp','ctaSignIn','sideSignUp'].forEach(id => {
+      document.getElementById(id).addEventListener('click', (e) => {
+        e.preventDefault();
+        alert('Accounts are launching soon — check back shortly!');
+      });
+    });
+
+    // ---- Scroll-reveal: sections fade up into view as you scroll ----
+    const revealEls = document.querySelectorAll('.reveal, .reveal-stagger');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealEls.forEach(el => io.observe(el));
+  </script>
+
+</body>
+</html>
